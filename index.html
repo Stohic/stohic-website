@@ -90,10 +90,17 @@
     }
 
     .hero h1 {
-      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-size: clamp(1.25rem, 4vw, 2.5rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        white-space: normal;
+      }
     }
 
     .hero h3 {
@@ -135,7 +142,7 @@
     /* Mobile adjustments */
     @media (max-width: 640px) {
       .hero h1 {
-        font-size: clamp(1.5rem, 7vw, 2.5rem);
+        font-size: clamp(1rem, 5vw, 1.5rem);
       }
     }
 
@@ -156,7 +163,7 @@
   <main>
     <section id="hero" class="hero">
       <div class="container hero-content">
-        <h1 id="decrypt-text" aria-label="Deceptively Familiar">Deceptively Familiar</h1>
+        <h1 id="decrypt-text" aria-label="Deceptively Familiar. Uniquely Private.">Deceptively Familiar. Uniquely Private.</h1>
 	<div class="hero-row">
 	  <img height="150" width="150" src="stohic-icon-transparent.png" alt="">
 	  <div class="hero-text">
@@ -178,7 +185,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     (function() {
-      const target = 'Deceptively Familiar';
+      const target = 'Deceptively Familiar. Uniquely Private.';
       const el = document.getElementById('decrypt-text');
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?';
       const decryptDuration = 7000;
