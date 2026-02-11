@@ -103,6 +103,29 @@
       font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
     }
 
+    .hero h5 {
+      font-size: clamp(0.45rem, -2.0625rem + 7vw, 2rem)
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    .hero-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: var(--spacing-md);
+    }
+
+    .hero-row img {
+      flex-shrink: 0;
+    }
+
+    .hero-text {
+      text-align: left;
+    }
+
     /* Footer */
     footer {
       flex-shrink: 0;
@@ -141,8 +164,12 @@
     <section id="hero" class="hero">
       <div class="container hero-content">
         <h1 id="decrypt-text" aria-label="Deceptively Familiar">Deceptively Familiar</h1>
-	<h3>Resilience as a Strategic Imperative</h3>
-	<h3>(Launching Soon)</h3>
+	<div class="hero-row">
+	  <img height="150" width="150" src="stohic-icon-transparent.png" alt="">
+	  <div class="hero-text">
+	    <h3>Resilience as a Strategic Imperative</h3>
+	  </div>
+	</div>
       </div>
     </section>
   </main>
