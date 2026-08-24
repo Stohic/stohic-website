@@ -1,301 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; connect-src https://www.google-analytics.com https://analytics.google.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Stohic.com – Deceptively Familiar</title>
-  <meta name="description" content="Stohic.com - Deceptively Familiar.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    :root {
-      --color-bg: #161c2d;
-      --color-text: #ffffff;
-      --color-text-muted: rgba(255, 255, 255, 0.85);
-      --color-accent: #ffffff;
-      --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      --max-width: 1060px;
-      --spacing-sm: 1rem;
-      --spacing-md: 2rem;
-      --spacing-lg: 4rem;
-    }
+    <!--
+      script-src and style-src keep 'unsafe-inline' for two reasons: the Google
+      Analytics bootstrap is an inline script, and React writes inline style
+      attributes for the comparison diagram's transitions. If the contact form
+      moves off mailto:, add its origin to connect-src.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src https://www.google-analytics.com https://analytics.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    html, body {
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-    }
+    <title>Stohic Enclave – Collaboration that does not reveal who is talking to whom</title>
+    <meta
+      name="description"
+      content="Stohic Enclave gives every customer its own isolated deployment, with its own entrance and an exit the customer governs. Encryption hides what you said. Enclave also hides who you said it to."
+    />
+    <meta name="theme-color" content="#0A1628" />
 
-    body {
-      font-family: var(--font-stack);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-    }
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/stohic-icon-transparent.png" />
+    <link rel="canonical" href="https://stohic.com/" />
 
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 var(--spacing-md);
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stohic" />
+    <meta property="og:url" content="https://stohic.com/" />
+    <meta
+      property="og:title"
+      content="Stohic Enclave – Collaboration that does not reveal who is talking to whom"
+    />
+    <meta
+      property="og:description"
+      content="Every customer gets its own isolated deployment, with its own entrance and an exit the customer governs. From outside, there is no shared platform to enumerate."
+    />
+    <meta property="og:image" content="https://stohic.com/stohic-icon-transparent.png" />
+    <meta property="og:image:alt" content="The Stohic mark." />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 
-    /* Navigation */
-    header {
-      flex-shrink: 0;
-      background: #000000;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--spacing-sm) 0;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--color-text);
-      letter-spacing: -0.02em;
-    }
-
-    /* Main content */
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-    }
-
-    .hero-content {
-      width: 100%;
-    }
-
-    .hero h1 {
-      font-size: clamp(1.25rem, 4vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        white-space: normal;
+    <!-- Google Analytics 4. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV8ZF9LW5V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
       }
-    }
-
-    .hero h3 {
-      font-size: clamp(0.75rem, 0.375rem + 2vw, 1rem);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-    }
-
-    .hero-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: var(--spacing-md);
-    }
-
-    .hero-row img {
-      flex-shrink: 0;
-    }
-
-    .hero-text {
-      text-align: left;
-    }
-
-    /* Footer */
-    footer {
-      flex-shrink: 0;
-      padding: var(--spacing-sm) 0;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    footer p {
-      color: var(--color-text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 640px) {
-      .hero h1 {
-        font-size: clamp(1rem, 5vw, 1.5rem);
-      }
-    }
-
-    /* Focus styles for accessibility */
-    a:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <nav class="container">
-      <a href="#" class="logo">Stohic</a>
-    </nav>
-  </header>
-
-  <main>
-    <section id="hero" class="hero">
-      <div class="container hero-content">
-        <h1 id="decrypt-text" aria-label="Deceptively Familiar. Uniquely Private.">Deceptively Familiar. Uniquely Private.</h1>
-	<div class="hero-row">
-	  <img height="150" width="150" src="stohic-icon-transparent.png" alt="">
-	  <div class="hero-text">
-	    <h3>Strategic Resilience - Deliberate Data Sovereignty</h3>
-	  </div>
-	</div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; <span id="year"></span> Stohic Inc. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    (function() {
-      const target = 'Deceptively Familiar. Uniquely Private.';
-      const el = document.getElementById('decrypt-text');
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?';
-      const decryptDuration = 7000;
-      const holdDuration = 10000;
-      const scrambleDuration = 2000;
-      const frameRate = 50;
-
-      let animationId = null;
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function getRandomChar() {
-        return chars[Math.floor(Math.random() * chars.length)];
-      }
-
-      function scrambleText(text) {
-        return text.split('').map(c => c === ' ' ? ' ' : getRandomChar()).join('');
-      }
-
-      function animate() {
-        if (prefersReducedMotion) {
-          el.textContent = target;
-          return;
-        }
-
-        let phase = 'decrypt';
-        let startTime = performance.now();
-        let lockedIndices = new Set();
-
-        function getDecryptedText(progress) {
-          const result = [];
-          for (let i = 0; i < target.length; i++) {
-            if (target[i] === ' ') {
-              result.push(' ');
-            } else if (lockedIndices.has(i)) {
-              result.push(target[i]);
-            } else {
-              const charThreshold = (i / target.length) * 0.7 + 0.15;
-              if (progress > charThreshold && Math.random() < 0.1) {
-                lockedIndices.add(i);
-                result.push(target[i]);
-              } else {
-                result.push(getRandomChar());
-              }
-            }
-          }
-          return result.join('');
-        }
-
-        function getScrambledText(progress) {
-          const result = [];
-          const unlockedCount = Math.floor(progress * target.length);
-          for (let i = 0; i < target.length; i++) {
-            if (target[i] === ' ') {
-              result.push(' ');
-            } else if (i < target.length - unlockedCount) {
-              result.push(target[i]);
-            } else {
-              result.push(getRandomChar());
-            }
-          }
-          return result.join('');
-        }
-
-        function tick() {
-          const now = performance.now();
-          const elapsed = now - startTime;
-
-          if (phase === 'decrypt') {
-            const progress = Math.min(elapsed / decryptDuration, 1);
-            el.textContent = getDecryptedText(progress);
-            if (progress >= 1) {
-              el.textContent = target;
-              phase = 'hold';
-              startTime = now;
-              lockedIndices.clear();
-            }
-          } else if (phase === 'hold') {
-            if (elapsed >= holdDuration) {
-              phase = 'scramble';
-              startTime = now;
-            }
-          } else if (phase === 'scramble') {
-            const progress = Math.min(elapsed / scrambleDuration, 1);
-            el.textContent = getScrambledText(progress);
-            if (progress >= 1) {
-              phase = 'decrypt';
-              startTime = now;
-              lockedIndices.clear();
-            }
-          }
-
-          animationId = setTimeout(tick, frameRate);
-        }
-
-        el.textContent = scrambleText(target);
-        tick();
-      }
-
-      animate();
-    })();
-  </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EV8ZF9LW5V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EV8ZF9LW5V');
-</script>
-</body>
+      gtag('js', new Date())
+      gtag('config', 'G-EV8ZF9LW5V')
+    </script>
+  </body>
 </html>

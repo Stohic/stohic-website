@@ -1,0 +1,48 @@
+name: CI
+
+# Builds every push and pull request so breakage surfaces immediately.
+# This workflow never publishes. Deployment lives in deploy.yml, behind a tag.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run build
+
+      - name: Verify the custom domain survived the build
+        run: |
+          test -f dist/CNAME
+          echo "CNAME -> $(cat dist/CNAME)"
+
+      - name: Verify index.html points at built assets
+        run: |
+          grep -q '/assets/' dist/index.html
+          ! grep -q '/src/main.tsx' dist/index.html
+
+      # No em dashes anywhere in the copy. This is a house style rule, and it is
+      # cheaper to enforce here than to catch in review.
+      - name: No em dashes in source
+        run: |
+          if grep -rn '—' src index.html public/terms; then
+            echo "::error::Em dash found. Restructure the sentence."
+            exit 1
+          fi

@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+# Publishing is gated on a version tag. Pushing to main never reaches
+# stohic.com; only `git tag v1.0 && git push origin v1.0` does.
+#
+# Requires Settings > Pages > Source set to "GitHub Actions". While it is still
+# set to "Deploy from a branch", the deploy job fails and the previously
+# published site keeps serving.
+on:
+  push:
+    tags:
+      - 'v*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run build
+
+      # The custom domain lives in dist/CNAME. A build that lost it would
+      # unbind stohic.com on publish, so fail here instead.
+      - name: Verify the custom domain survived the build
+        run: |
+          test -f dist/CNAME
+          echo "CNAME -> $(cat dist/CNAME)"
+
+      # Guards against publishing the Vite dev entry, which references
+      # /src/main.tsx and renders a blank page on a static host.
+      - name: Verify index.html points at built assets
+        run: |
+          grep -q '/assets/' dist/index.html
+          ! grep -q '/src/main.tsx' dist/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Focus indicators need 3:1 against their own background. Accent cyan is
+       1.6:1 on white, so light surfaces get brand-600 and dark surfaces
+       override to accent below. */
+    --focus-ring: #1e3a6e;
+  }
+
+  .surface-dark {
+    --focus-ring: #38bdf8;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-bg font-sans text-[1rem] leading-[1.6] text-fg antialiased md:text-[1.0625rem];
+    font-synthesis-weight: none;
+  }
+
+  /* Never removed, only recolored. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    @apply bg-brand-600 text-white;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-6 md:px-10;
+  }
+
+  .eyebrow {
+    @apply font-sans text-eyebrow font-bold uppercase;
+  }
+
+  .section-heading {
+    @apply font-sans text-[1.75rem] font-bold leading-[1.2] tracking-[-0.01em] md:text-[2rem];
+  }
+
+  .lede {
+    @apply max-w-prose text-[1.0625rem] font-light leading-[1.6] md:text-[1.125rem];
+  }
+
+  /* The signature transition. 400ms, opacity and transform only, and nothing
+     at all when the visitor has asked for less motion. */
+  .enclave-anim {
+    transition:
+      opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .enclave-anim {
+      transition: none;
+    }
+  }
+}
+
+@layer utilities {
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    @apply sr-only;
+  }
+}
