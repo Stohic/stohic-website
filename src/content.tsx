@@ -127,8 +127,8 @@ export const whatYouGet: {
       body: (
         <>
           Do research without it tracing back to your organization’s own address. Traffic leaves
-          through a managed VPN built on a cryptographic module validated to{' '}
-          <Mono>FIPS 140-3</Mono>, so the exit point is yours to choose.
+          through a managed <Mono>WireGuard</Mono> tunnel in a region you choose, so the exit point
+          is yours to pick.
         </>
       ),
       footnote: true,
@@ -187,8 +187,9 @@ export const cryptography = {
   ],
   browsing: (
     <>
-      Secure browsing runs over a managed VPN built on a cryptographic module validated to{' '}
-      <Mono>FIPS 140-3</Mono>.
+      Secure browsing runs over a managed <Mono>WireGuard</Mono> tunnel, which uses{' '}
+      <Mono>ChaCha20-Poly1305</Mono> for data, <Mono>Curve25519</Mono> for key agreement and{' '}
+      <Mono>BLAKE2s</Mono> for hashing.
     </>
   ),
   closing:
@@ -221,11 +222,23 @@ export const footer = {
   ],
 }
 
-/** Footnote 1. Used verbatim wherever a secure browsing claim appears. */
+/**
+ * Footnote 1. Used verbatim wherever a secure browsing claim appears.
+ *
+ * DO NOT reintroduce a FIPS 140-3 claim here without a module to point at.
+ * A previous version of this note cited the AWS-LC 3 module under CMVP
+ * certificates 5314 (static) and 5298 (dynamic). Those certificates are real,
+ * but AWS-LC is not in this product: the secure browser is stock Debian
+ * `chromium` (BoringSSL) and the egress path is stock `wireguard` from apt.
+ * Neither is a FIPS-validated module, and `aws-lc` appears nowhere in the
+ * source. enc-api docs/COMPLIANCE-GAP-ANALYSIS.md also still lists FIPS
+ * validation as an OPEN gap (FED-SC-01), which a customer or auditor reading
+ * both documents would notice.
+ */
 export const secureBrowsingNote: ReactNode = (
   <>
-    Secure browsing uses the <Mono>AWS-LC 3</Mono> cryptographic module, validated to{' '}
-    <Mono>FIPS 140-3</Mono> under NIST CMVP certificates <Mono>5314</Mono> for the static variant and{' '}
-    <Mono>5298</Mono> for the dynamic variant. The validation applies to the module.
+    Secure browsing is streamed as pixels: the page renders on an isolated instance and never
+    on your machine. Egress is a managed <Mono>WireGuard</Mono> tunnel with a per-campaign
+    address, so traffic a target sees is never your organization’s own.
   </>
 )
